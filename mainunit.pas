@@ -5,8 +5,12 @@ unit mainunit;
 interface
 
 uses
-  Classes, Windows, SysUtils, SynEdit, SynHighlighterAny, Forms,
-  Controls, Dialogs, ComCtrls, Menus, ActnList, StdCtrls, ExtCtrls,
+  Classes,
+  {$IFDEF MSWINDOWS}
+  Windows,
+  {$ENDIF}
+  SysUtils, SynEdit, SynHighlighterAny, Forms, Controls, Dialogs,
+  ComCtrls, Menus, ActnList, StdCtrls, ExtCtrls,
   XMLPropStorage, LazSerial;
 
 type
@@ -77,6 +81,8 @@ type
     procedure acEnviarExecute(Sender: TObject);
     procedure acRangoLineasExecute(Sender: TObject);
     procedure acSalirExecute(Sender: TObject);
+    procedure EditorChange(Sender: TObject);
+    procedure EditorClick(Sender: TObject);
     procedure EditorMouseMove(Sender: TObject; Shift: TShiftState; X, Y: integer);
     procedure FormCreate(Sender: TObject);
     procedure PuertoSerieRxData(Sender: TObject);
@@ -84,6 +90,7 @@ type
     { private declarations }
     Stop: boolean;
     Titulo: string;
+    BookMarkLinea : Integer; //Contiene la línea dónde está el bookmark
     procedure EnviarPuertoSerie(Cadena: string);
     procedure ProcesaLinea(aCadena: string; Vacio: boolean = False);
     procedure Inactivo(TSender: TObject; var done: boolean);
@@ -202,6 +209,17 @@ end;
 procedure TMainForm.acSalirExecute(Sender: TObject);
 begin
   Close;
+end;
+
+procedure TMainForm.EditorChange(Sender: TObject);
+begin
+
+end;
+
+procedure TMainForm.EditorClick(Sender: TObject);
+begin
+  BookMarkLinea:= Editor.CaretY;
+  Editor.SetBookMark(11,1,BookMarkLinea);
 end;
 
 procedure TMainForm.EditorMouseMove(Sender: TObject; Shift: TShiftState; X, Y: integer);
