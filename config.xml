@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CONFIG>
+  <TApplication>
+    <MainForm PuertoSerie_Name="PuertoSerie" MainForm_Position="poDesktopCenter" PuertoSerie_Device="COM1" PuertoSerie_Parity="pNone" MainForm_WindowState="wsMaximized" PuertoSerie_BaudRate="br115200" PuertoSerie_DataBits="db8bits" PuertoSerie_StopBits="sbOne" PuertoSerie_SynSerTag="0" PuertoSerie_FlowControl="fcNone" PuertoSerie_RcvLineCRLF="0" PuertoSerie_SynSerHandle="-1" PuertoSerie_SynSerTestCTS="0" PuertoSerie_SynSerTestDSR="0" PuertoSerie_SynSerAtTimeout="1000" PuertoSerie_SynSerLinuxLock="0" PuertoSerie_SynSerLineBuffer="" PuertoSerie_SynSerRaiseExcept="0" PuertoSerie_SynSerMaxLineLength="0" PuertoSerie_SynSerConvertLineEnd="0" PuertoSerie_SynSerDeadlockTimeout="30000" PuertoSerie_SynSerInterPacketTimeout="1"/>
+  </TApplication>
+</CONFIG>
