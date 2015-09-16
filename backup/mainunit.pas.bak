@@ -29,6 +29,8 @@ type
     acConectar: TAction;
     acDesconectar: TAction;
     acDetener: TAction;
+    acProxCapa: TAction;
+    acCapaAnterior: TAction;
     ActionList1: TActionList;
     imgAcciones: TImageList;
     imBookMarks: TImageList;
@@ -63,6 +65,9 @@ type
     ToolButton10: TToolButton;
     ToolButton11: TToolButton;
     ToolButton12: TToolButton;
+    ToolButton13: TToolButton;
+    ToolButton14: TToolButton;
+    ToolButton15: TToolButton;
     ToolButton2: TToolButton;
     ToolButton3: TToolButton;
     ToolButton4: TToolButton;
@@ -73,12 +78,14 @@ type
     ToolButton9: TToolButton;
     XMLPropStorage1: TXMLPropStorage;
     procedure acAbrirExecute(Sender: TObject);
+    procedure acCapaAnteriorExecute(Sender: TObject);
     procedure acCicloVacioExecute(Sender: TObject);
     procedure acConectarExecute(Sender: TObject);
     procedure acConfigPuertoSerieExecute(Sender: TObject);
     procedure acDesconectarExecute(Sender: TObject);
     procedure acDetenerExecute(Sender: TObject);
     procedure acEnviarExecute(Sender: TObject);
+    procedure acProxCapaExecute(Sender: TObject);
     procedure acRangoLineasExecute(Sender: TObject);
     procedure acSalirExecute(Sender: TObject);
     procedure EditorChange(Sender: TObject);
@@ -90,7 +97,7 @@ type
     { private declarations }
     Stop: boolean;
     Titulo: string;
-    BookMarkLinea : Integer; //Contiene la línea dónde está el bookmark
+    BookMarkLinea: integer; //Contiene la línea dónde está el bookmark
     procedure EnviarPuertoSerie(Cadena: string);
     procedure ProcesaLinea(aCadena: string; Vacio: boolean = False);
     procedure Inactivo(TSender: TObject; var done: boolean);
@@ -116,6 +123,31 @@ begin
     Editor.ClearAll;
     Editor.Lines.LoadFromFile(OpenDialog1.FileName);
     Caption := Titulo + ' [' + OpenDialog1.FileName + ']';
+  end;
+end;
+
+procedure TMainForm.acCapaAnteriorExecute(Sender: TObject);
+var
+  Posicion: Integer;
+  Cadena: String;
+  Encontrado: Boolean;
+  P: SizeInt;
+begin
+  Posicion := Editor.CaretY-2;
+  Encontrado := False;
+  While (Encontrado = False) and (Posicion > 0 ) do
+  begin
+    Cadena := UpperCase (Trim(Editor.lines[Posicion]));
+    P := Pos ('G1 Z',Cadena);
+    If P = 1 Then
+    begin
+      Encontrado := True;
+    end;
+    Posicion := Posicion -1;
+  end;
+  If Encontrado = True Then
+  begin
+    Editor.CaretY := Posicion+2;
   end;
 end;
 
@@ -183,6 +215,31 @@ begin
   ProcesaLinea(Linea);
 end;
 
+procedure TMainForm.acProxCapaExecute(Sender: TObject);
+var
+  Encontrado: boolean;
+  Posicion: integer;
+  Cadena: string;
+  P: SizeInt;
+begin
+  Encontrado := False;
+  Posicion := Editor.CaretY; ;
+  while (Encontrado = False) and (Posicion < Editor.Lines.Count) do
+  begin
+    Cadena := UpperCase(Trim(Editor.Lines[Posicion]));
+    P := Pos('G1 Z', Cadena);
+    if P = 1 then
+    begin
+      Encontrado := True;
+    end;
+    Posicion := Posicion + 1;
+  end;
+  if Encontrado = True then
+  begin
+   Editor.CaretY:= Posicion;
+  end;
+end;
+
 procedure TMainForm.acRangoLineasExecute(Sender: TObject);
 var
   P1: TPoint;
@@ -218,8 +275,8 @@ end;
 
 procedure TMainForm.EditorClick(Sender: TObject);
 begin
-  BookMarkLinea:= Editor.CaretY;
-  Editor.SetBookMark(11,1,BookMarkLinea);
+  BookMarkLinea := Editor.CaretY;
+  Editor.SetBookMark(11, 1, BookMarkLinea);
 end;
 
 procedure TMainForm.EditorMouseMove(Sender: TObject; Shift: TShiftState; X, Y: integer);
@@ -303,6 +360,8 @@ begin
   acDesconectar.Enabled := PuertoSerie.Active;
   acConectar.Enabled := not PuertoSerie.Active;
   acEnviar.Enabled := Editor.Lines.Count > 0;
+  acProxCapa.Enabled:= Editor.Lines.Count > 0;
+  acCapaAnterior.Enabled:=Editor.Lines.Count > 0;
   acLineaActual.Enabled := Editor.Lines.Count > 0;
   acDetener.Enabled := not Stop;
   acCicloVacio.Enabled := (Stop) and (Editor.Lines.Count > 0);

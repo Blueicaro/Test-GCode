@@ -121,7 +121,6 @@
         <ComponentName Value="MainForm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <UnitName Value="mainunit"/>
       </Unit1>
     </Units>
   </ProjectOptions>

@@ -24,7 +24,7 @@
           <Version Value="11"/>
           <PathDelim Value="\"/>
           <Target>
-            <Filename Value="Debug\TestGCode"/>
+            <Filename Value="Debug\$(TargetOS)\TestGCode"/>
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
@@ -62,7 +62,7 @@
           <Version Value="11"/>
           <PathDelim Value="\"/>
           <Target>
-            <Filename Value="TestGCode"/>
+            <Filename Value="Binary\$(TargetOS)\TestGCode"/>
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
@@ -121,7 +121,6 @@
         <ComponentName Value="MainForm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <UnitName Value="mainunit"/>
       </Unit1>
     </Units>
   </ProjectOptions>
@@ -129,7 +128,7 @@
     <Version Value="11"/>
     <PathDelim Value="\"/>
     <Target>
-      <Filename Value="TestGCode"/>
+      <Filename Value="Debug\$(TargetOS)\TestGCode"/>
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
